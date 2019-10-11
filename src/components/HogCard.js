@@ -10,9 +10,10 @@ export default class HogCard extends Component {
     render() {
         return (
 
-            <div className="ui eight wide column" onClick={ this.clickHandler }>
+            <div className="ui eight wide column">
                 <h1>{ this.props.hogInfo.name }</h1>
-                <img src={ require(`../hog-imgs/${this.props.hogInfo.name.toLowerCase().split(" ").join('_')}.jpg`) } alt="test"/>
+                <button onClick={ this.hideHog }>hide this hog</button>
+                <img src={ require(`../hog-imgs/${this.props.hogInfo.name.toLowerCase().split(" ").join('_')}.jpg`) } alt="test" onClick={ this.clickHandler }/>
                 { this.state.info ?
                     <ul>
                         <li>speaciality: {this.props.hogInfo.specialty}</li>
@@ -23,6 +24,10 @@ export default class HogCard extends Component {
                     }
             </div>
         )
+    }
+
+    hideHog = (event) => {
+        event.target.parentNode.style.display = "none"
     }
 
     clickHandler = () => {
