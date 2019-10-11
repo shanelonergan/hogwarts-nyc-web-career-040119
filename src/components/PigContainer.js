@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import hogs from '../porkers_data.js'
 import HogCard from './HogCard.js'
-
+let sortedHogs = [...hogs]
 export default class PigContainer extends Component {
-
     state = {
      hogsArray: hogs,
      greasedSorted: false,
@@ -12,8 +11,8 @@ export default class PigContainer extends Component {
     }
 
 
-    filterHogs = () => {
-        let newArray = this.state.hogsArray.filter((hog) => {
+    filterHogs = (hogArray) => {
+        let newArray = hogArray.filter((hog) => {
                 return hog.greased
         })
         return newArray
@@ -37,23 +36,48 @@ export default class PigContainer extends Component {
                 <br/>
                 <br/>
                 <div className='ui grid container'>
-                    { this.state.greasedSorted ? this.sortPigs() : this.showPig() }
+                    {  }
                 </div>
             </div>
 
         )
     }
 
-    renderWithSort = () => {
-        if (this.state.greasedSorted) {
-            return this.sortGreasedPigs
-        } else if ()
+    renderWithConditionals = () => {
+        if (this.state.nameSorted || this.state.weightSorted) {
+            let sortedHogsArray = this.sortAllTheHogs()
+            this.state.greasedSorted ? this.sortPigs(sortedHogsArray) : this.showPig(sortedHogsArray)
+        } else {
+            this.state.greasedSorted ? this.sortPigs(hogs) : this.showPig(hogs)
+        }
 
     }
 
-    sortGreasedPigs = () => {
+
+    sortAllTheHogs = () => {
+        function weightSorter(a,b) {
+        if (a.weight < b.weight)
+            return -1;
+         if (a.weight > b.weight)
+           return 1;
+         return 0;
+        }
+
+
+        if (this.state.nameSorted && !this.state.weightSorted) {
+            return sortedHogs.sort()
+        } else if (!this.state.nameSorted && this.state.weightSorted) {
+            return sortedHogs.sort(weightSorter)
+        } else if (this.state.nameSorted && this.state.weightSorted) {
+            return sortedHogs.sort().sort(weightSorter)
+        } else {
+            return hogs
+        }
+    }
+
+    sortGreasedPigs = (hogArray) => {
         // console.log('click')
-        let filteredHogs = this.filterHogs()
+        let filteredHogs = this.filterHogs(hogArray)
         // console.log(filteredHogs)
 
         return filteredHogs.map((hog) => {
@@ -61,8 +85,8 @@ export default class PigContainer extends Component {
            })
     }
 
-    showPig = () => {
-       return hogs.map((hog) => {
+    showPig = (hogArray) => {
+       return hogArray.map((hog) => {
         return < HogCard hogInfo={ hog }/>
        })
     }
