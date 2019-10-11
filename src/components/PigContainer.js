@@ -6,7 +6,9 @@ export default class PigContainer extends Component {
 
     state = {
      hogsArray: hogs,
-     sorted: false
+     greasedSorted: false,
+     nameSorted: false,
+     weightSorted: false
     }
 
 
@@ -18,9 +20,9 @@ export default class PigContainer extends Component {
         }
 
     clickHandler = () => {
-        let isSorted = this.state.sorted
+        let isGreasedSorted = this.state.greasedSorted
         this.setState({
-            sorted: isSorted ? false : true
+            greasedSorted: isGreasedSorted ? false : true
         })
     }
 
@@ -35,14 +37,21 @@ export default class PigContainer extends Component {
                 <br/>
                 <br/>
                 <div className='ui grid container'>
-                    { this.state.sorted ? this.sortPigs() : this.showPig() }
+                    { this.state.greasedSorted ? this.sortPigs() : this.showPig() }
                 </div>
             </div>
 
         )
     }
 
-    sortPigs = () => {
+    renderWithSort = () => {
+        if (this.state.greasedSorted) {
+            return this.sortGreasedPigs
+        } else if ()
+
+    }
+
+    sortGreasedPigs = () => {
         // console.log('click')
         let filteredHogs = this.filterHogs()
         // console.log(filteredHogs)
